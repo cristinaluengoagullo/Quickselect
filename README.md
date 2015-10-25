@@ -2,7 +2,7 @@
 This reporitory contains different implementations of the quickselect algorithm:
 * Choosing a **deterministic pivot** (last element of the list)
 * Choosing a **random pivot**
-* Using the **Median of medians** algorithm to choose a picot
+* Using the **Median of medians** algorithm to choose a pivot
 * Using the **Monte Carlo** algorithm for the whole implementation
 
 To execute the code type the following in your command window:
