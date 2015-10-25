@@ -11,4 +11,4 @@ main: $(OBJS)
 	$(CC) $(CFLAGS) -fexceptions -c $*.cpp -o $*.o
 
 clean:
-	rm *.o quickselect
+	rm *.o *~ quickselect
