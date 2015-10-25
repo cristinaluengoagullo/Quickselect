@@ -30,6 +30,10 @@ int main(int argc, char **argv)
   int n = stoi(argv[2]);
   // k-th element we want to select
   int k = stoi(argv[3]);
+  if(k > n) {
+    cout << "k must be smaller than the number of elements!" << endl;
+    return 3;
+  }    
   // Sample vector: vector of n distinct elements
   vector<int> v(n);
   // Vector of pending numbers to appear in v
