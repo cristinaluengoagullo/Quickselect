@@ -1,9 +1,9 @@
-## Quickselect
-This reporitory contains different implementations of the quickselect algorithm:
-* Choosing a **deterministic pivot** (last element of the list)
-* Choosing a **random pivot**
-* Using the **Median of medians** algorithm to choose a pivot
-* Using the **Monte Carlo** algorithm for the whole implementation
+## Selection of k-th element
+This reporitory contains different implementations to select the k-th element from a list of integers:
+* **Quick select** choosing a **deterministic pivot** (last element of the list)
+* **Quick select** choosing a **random pivot**
+* **Quick select** using the **Median of medians** algorithm to choose a pivot
+* **Monte Carlo** algorithm 
 
 To execute the code type the following in your command window:
 
