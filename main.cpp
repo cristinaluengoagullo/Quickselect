@@ -5,6 +5,7 @@
 #include "QuickselectDetPivot.hpp"
 #include "QuickselectRandPivot.hpp"
 #include "QuickselectMOMPivot.hpp"
+#include "MonteCarlo.hpp"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ int showUsageMessage(const char* arg0) {
   cout << "      -rand: Random pivot" << endl;
   cout << "      -mom: Median of medians pivot" << endl;
   cout << "      -monte: Monte Carlo algorithm" << endl;
+  cout << endl;
   return 3;
 }
 
@@ -70,11 +72,11 @@ int main(int argc, char **argv)
     cout << qs.quickselect(v,0,v.size()-1,k) << endl << endl;
   }
   else if(not strcmp(argv[1],"-mom")) {
-    QuickselectRandPivot qs;
+    QuickselectMOMPivot qs;
     cout << qs.quickselect(v,0,v.size()-1,k) << endl << endl;
   }
   else if(not strcmp(argv[1],"-monte")) {
-    QuickselectMOMPivot qs;
-    cout << qs.quickselect(v,0,v.size()-1,k) << endl << endl;
+    MonteCarlo mc;
+    cout << mc.select(v) << endl << endl;
   }
 }
