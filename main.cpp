@@ -77,6 +77,6 @@ int main(int argc, char **argv)
   }
   else if(not strcmp(argv[1],"-monte")) {
     MonteCarlo mc;
-    cout << mc.select(v) << endl << endl;
+    cout << mc.selectK(v,k) << endl << endl;
   }
 }

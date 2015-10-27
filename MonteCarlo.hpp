@@ -19,6 +19,8 @@ public:
 
   int select(vector<int> input);
   
+  int selectK(vector<int> input, int k);
+
 private:
 
   vector<int> sampleSet(const vector<int>& input);
