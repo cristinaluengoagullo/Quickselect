@@ -1,4 +1,4 @@
-## Selection of k-th element of a list
+## Selection of the k-th element of a list
 This reporitory contains different implementations to select the k-th element of a list of integers:
 * **Quick select** choosing a **deterministic pivot** (last element of the list)
 * **Quick select** choosing a **random pivot**
