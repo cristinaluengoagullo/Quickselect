@@ -1,5 +1,5 @@
-## Medain of a list of integers
-This reporitory contains different implementations to select the median of a list of integers:
+## Selection of k-th element of a list
+This reporitory contains different implementations to select the k-th element of a list of integers:
 * **Quick select** choosing a **deterministic pivot** (last element of the list)
 * **Quick select** choosing a **random pivot**
 * **Quick select** using the **Median of medians** algorithm to choose a pivot
