@@ -25,23 +25,16 @@ int showUsageMessage(const char* arg0) {
   return 3;
 }
 
-int main(int argc, char **argv)
+// Generates a sample vector of n distinct elements
+vector<int> sampleVector(int n) 
 {
-  if(argc < 4 or argc > 4) return showUsageMessage(argv[0]);
-  // Number of elements in the vector
-  int n = stoi(argv[2]);
-  // k-th element we want to select
-  int k = stoi(argv[3]);
-  if(k > n) {
-    cout << "k must be smaller than the number of elements!" << endl;
-    return 3;
-  }    
   // Sample vector: vector of n distinct elements
   vector<int> v(n);
-  // Vector of pending numbers to appear in v
+  // Vector of pending numbers to appear in v - For now there can appear 
+  // numbers in the interval 0..2*n-1
   vector<int> pending(2*n);
   int i = 0;
-  // Initialization of pending vector (all numbers in 0..2*n-1)
+  // Initialization of pending vector 
   for(int i = 0; i < pending.size(); i++) 
     pending[i] = i;
   // Assignment of distinct random values to v
@@ -56,17 +49,32 @@ int main(int argc, char **argv)
     pending.pop_back();
     i++;
   }
+  return v;
+}
+
+int main(int argc, char **argv)
+{
+  if(argc < 4 or argc > 4) return showUsageMessage(argv[0]);
+  // Number of elements in the vector
+  int n = stoi(argv[2]);
+  // k-th element we want to select
+  int k = stoi(argv[3]);
+  if(k > n) {
+    cout << "k must be smaller than the number of elements!" << endl;
+    return 3;
+  }    
+  vector<int> v = sampleVector(n);
   cout << endl << "--- Sample vector ---" << endl << endl;
   printVector(v);
   cout << endl << "---------------------" << endl << endl;
   cout << endl << "--- Sorted sample vector ---" << endl << endl;
   sort(v.begin(),v.end());
   printVector(v);
-  cout << endl << "---------------------" << endl << endl;
-  if(k == 1) cout << "1st element : ";
-  else if(k == 2) cout << "2nd element : ";
-  else if(k == 3) cout << "3rd element : ";
-  else cout << k << "th element : ";
+  cout << endl << "----------------------------" << endl << endl;
+  if(k == 1) cout << endl << "1st element : ";
+  else if(k == 2) cout << endl << "2nd element : ";
+  else if(k == 3) cout << endl << "3rd element : ";
+  else cout << endl << k << "th element : ";
   if(not strcmp(argv[1],"-det")) {
     QuickselectDetPivot qs;
     cout << qs.quickselect(v,0,v.size()-1,k) << endl << endl;
@@ -81,6 +89,8 @@ int main(int argc, char **argv)
   }
   else if(not strcmp(argv[1],"-monte")) {
     MonteCarlo mc;
-    cout << mc.selectK(v,k) << endl << endl;
+    int result = mc.selectK(v,k);
+    if(result == -1) cout << "FAILED" << endl; 
+    else cout << endl << result << endl;
   }
 }

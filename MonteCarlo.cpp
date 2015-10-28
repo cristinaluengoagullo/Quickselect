@@ -31,7 +31,17 @@ int MonteCarlo::selectMedian(vector<int> input)
 int MonteCarlo::selectK(vector<int> input, int k)
 {
   vector<int> sample = sampleSet(input);
+  #ifdef DEBUG
+  cout << endl << "Sample: " << endl;
+  for(auto s : sample) cout << s << " ";
+  cout << endl;
+  #endif
   sort(sample.begin(),sample.end());
+  #ifdef DEBUG
+  cout << endl << "Sorted sample: " << endl;
+  for(auto s : sample) cout << s << " ";
+  cout << endl;
+  #endif
   int n = input.size();
   int index = floor(0.5*pow(n,0.75) - sqrt(n));
   if(index > 0) index--;
@@ -45,12 +55,23 @@ int MonteCarlo::selectK(vector<int> input, int k)
     else if(input[i] < d) ld++;
     else if(input[i] > u) lu++;
   }
-  if(ld > k or lu > n-k) return -1;
+  #ifdef DEBUG
+  cout << "d = " << d << ", u = " << u << endl;
+  cout << "ld = " << ld << ", lu = " << lu << endl;
+  #endif
+  if(ld > k or lu > n-k) {
+    #ifdef DEBUG
+    cout << "Entra fail1" << endl; 
+    #endif
+    return -1;}
   if(c.size() <= 4*pow(n,0.75)) {
     set<int>::iterator it = c.begin();
     advance(it,k-ld-1);
     return *it;
   }
+  #ifdef DEBUG
+  cout << "Entra fail2" << endl;
+  #endif
   return -1;
 }
 
