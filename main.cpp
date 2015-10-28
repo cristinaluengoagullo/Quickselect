@@ -39,9 +39,9 @@ int main(int argc, char **argv)
   // Sample vector: vector of n distinct elements
   vector<int> v(n);
   // Vector of pending numbers to appear in v
-  vector<int> pending(n);
+  vector<int> pending(2*n);
   int i = 0;
-  // Initialization of pending vector (all numbers in 0..n-1)
+  // Initialization of pending vector (all numbers in 0..2*n-1)
   for(int i = 0; i < pending.size(); i++) 
     pending[i] = i;
   // Assignment of distinct random values to v
@@ -57,6 +57,10 @@ int main(int argc, char **argv)
     i++;
   }
   cout << endl << "--- Sample vector ---" << endl << endl;
+  printVector(v);
+  cout << endl << "---------------------" << endl << endl;
+  cout << endl << "--- Sorted sample vector ---" << endl << endl;
+  sort(v.begin(),v.end());
   printVector(v);
   cout << endl << "---------------------" << endl << endl;
   if(k == 1) cout << "1st element : ";

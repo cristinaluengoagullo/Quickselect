@@ -17,7 +17,7 @@ public:
   
   MonteCarlo();
 
-  int select(vector<int> input);
+  int selectMedian(vector<int> input);
   
   int selectK(vector<int> input, int k);
 
