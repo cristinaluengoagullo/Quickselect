@@ -9,7 +9,7 @@ To execute the code type the following in your command window:
 
 ```
 # make
-# ./quickselect -opt <number_elements> <k>
+# ./main -opt <number_elements> <k>
 ```
 where '-opt' can be any of the following:
 * *-det*: Deterministic pivot
