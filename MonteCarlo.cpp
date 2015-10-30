@@ -76,14 +76,15 @@ int MonteCarlo::selectK(vector<int> input, int k)
   cout << endl << endl;
   #endif
   int n = input.size();
-  int index = floor((k/n)*pow(n,0.75) - sqrt(n));
+  int index = floor(float(k/n)*pow(n,0.75) - sqrt(n));
   if(index > 0) index--;
   else index = 0;
   #ifdef DEBUG
+  cout << "n = " << n << endl;
   cout << "index d = " << index << endl;
   #endif
   int d = sample[index];
-  index = ceil(((n-k)/n)*pow(n,0.75) + sqrt(n)) - 1;
+  index = ceil((float(n-k)/n)*pow(n,0.75) + sqrt(n)) - 1;
   if(index > sample.size()) index = sample.size()-1;
   #ifdef DEBUG
   cout << "index u = " << index << endl;
@@ -103,14 +104,25 @@ int MonteCarlo::selectK(vector<int> input, int k)
   for(auto s : c) cout << s << " ";
   cout << endl;
   #endif
-  if(ld > k or lu > n-k) {
+  if(ld >= k or lu > n-k) {
     #ifdef DEBUG
     cout << "Entra fail1" << endl; 
     #endif
     return -1;}
   if(c.size() <= 4*pow(n,0.75)) {
     set<int>::iterator it = c.begin();
-    advance(it,k-ld-1);
+    int index = k - ld;
+    #ifdef DEBUG
+    cout << endl << "k = " << k << endl;
+    cout << "index c = " << index << endl;
+    cout << (index == k) << endl;
+    #endif
+    if(index <= 0) index = k - 1;
+    else index--;
+    #ifdef DEBUG
+    cout << "new index = " << index << endl;
+    #endif
+    advance(it,index);
     return *it;
   }
   #ifdef DEBUG
