@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include <chrono>
+#include <set>
 
 #include "QuickselectDetPivot.hpp"
 #include "QuickselectRandPivot.hpp"
@@ -18,7 +19,7 @@ void printVector(vector<int> input) {
 }
 
 int showUsageMessage(const char* arg0) {
-  cout << endl << "Usage: " << arg0 << " [-v] ( -rep | -norep ) ( -det | -rand | -mom | -monte ) <number_elements> <i-th element>" << endl << endl;
+  cout << endl << "Usage: " << arg0 << "[-v] ( -rep | -norep ) ( -det | -rand | -mom | -monte ) <number_elements> <i-th element>" << endl << endl;
   cout << "      -v: Outputs information" << endl;
   cout << "      -rep: Creates a sample vector which can have repeated elements" << endl;
   cout << "      -norep: Creates a sample vector of distinct elements" << endl;
@@ -75,6 +76,19 @@ vector<int> sampleVectorRepeatedValues(int n)
   return v;
 }
 
+set<int> sampleKs(int n) 
+{
+  set<int> ks;
+  int nSqrt = sqrt(n);
+  ks.insert(n/2);
+  int i = nSqrt;
+  while(i < (n-nSqrt)) {
+    ks.insert(i);
+    i += (float(1)/10*(n-2*nSqrt));
+  }
+  return ks;
+}
+
 int main(int argc, char **argv)
 {
   if(argc < 5 or argc > 6) return showUsageMessage(argv[0]);
@@ -93,14 +107,19 @@ int main(int argc, char **argv)
     return 3;
   }    
   vector<int> v;
+  set<int> ks;
   if(not strcmp(argv[start+1],"-rep")) v = sampleVectorRepeatedValues(n);
   else if(not strcmp(argv[start+1],"-norep")) v =  sampleVectorDistinctValues(n);
+  ks = sampleKs(v.size());
   if(verbose) {
     cout << endl << "* Sample vector *" << endl << endl;
     printVector(v);
     cout << endl << "* Sorted sample vector *" << endl << endl;
     sort(v.begin(),v.end());
     printVector(v);
+    cout << endl;
+    cout << "* Sample Ks *" << endl;
+    for(auto k : ks) cout << k << " ";
     cout << endl;
     if(k == 1) cout << endl << "1st element : ";
     else if(k == 2) cout << endl << "2nd element : ";
@@ -112,37 +131,37 @@ int main(int argc, char **argv)
     QuickselectDetPivot qs;
     auto begin = std::chrono::high_resolution_clock::now();
     result = qs.quickselect(v,0,v.size()-1,k);
+    if(verbose) cout << result  << endl << endl;
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(end-begin).count();
     cout << std::fixed << (std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() * pow(10,-6)) << endl;
-    if(verbose) cout << result  << endl << endl;
   }
   else if(not strcmp(argv[start+2],"-rand")) {
     QuickselectDetPivot qs;
     auto begin = std::chrono::high_resolution_clock::now();
     result = qs.quickselect(v,0,v.size()-1,k);
+    if(verbose) cout << result << endl << endl;
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(end-begin).count();
     cout << std::fixed << std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() << endl;
-    if(verbose) cout << result << endl << endl;
   }
   else if(not strcmp(argv[start+2],"-mom")) {
     QuickselectMOMPivot qs;
     auto begin = std::chrono::high_resolution_clock::now();
     result = qs.quickselect(v,0,v.size()-1,k);
+    if(verbose) cout << result << endl << endl;
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(end-begin).count();
     cout << std::fixed << std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() << endl;
-    if(verbose) cout << result << endl << endl;
   }
   else if(not strcmp(argv[start+2],"-monte")) {
     MonteCarlo mc;
     auto begin = std::chrono::high_resolution_clock::now();
     result = mc.selectK(v,k);
     if(result == -1) cout << "FAILED" << endl; 
+    if(verbose) cout << result << endl << endl;
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::seconds>(end-begin).count();
     cout << std::fixed << std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() << endl;
-    if(verbose) cout << result << endl << endl;
   }
 }

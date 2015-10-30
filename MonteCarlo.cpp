@@ -104,7 +104,7 @@ int MonteCarlo::selectK(vector<int> input, int k)
   for(auto s : c) cout << s << " ";
   cout << endl;
   #endif
-  if(ld >= k or lu > n-k) {
+  if(ld >= k or lu >= n-k) {
     #ifdef DEBUG
     cout << "Entra fail1" << endl; 
     #endif
