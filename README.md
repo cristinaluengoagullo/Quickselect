@@ -14,6 +14,7 @@ To execute the code type the following in your command window:
 where 'opt-sample' refers to how the sample vector is going to be created:
 * *-rep*: Creates a sample vector which can have repeated elements
 * *-norep*: Creates a sample vector of distinct elements
+
 On the other hand, '-opt-algorithm' can be any of the following:
 * *-det*: Deterministic pivot for quickselect
 * *-rand*: Random pivot for quickselect
