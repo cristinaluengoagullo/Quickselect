@@ -8,7 +8,7 @@
 #include <math.h>  
 #include <set>
 
-//#define DEBUG 
+#define DEBUG 
 
 using namespace std;
 
