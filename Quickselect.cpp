@@ -4,7 +4,11 @@ Quickselect::Quickselect() {}
 
 int Quickselect::quickselect(vector<int> input, int l, int r, int k)
 {
-  if (l == r) return input[l];
+  if(r-l+1 <= 10) {
+    sort(input.begin()+l,input.begin()+r);
+    return input[l+k-1];
+  }
+  if (l >= r) return input[l];
   int p = partition(input,l,r);
   int length = p - l + 1;
   if (length == k) return input[p];

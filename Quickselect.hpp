@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+#include<algorithm>
 
 using namespace std;
 
@@ -15,7 +16,7 @@ public:
   
   int quickselect(vector<int> input, int l, int r, int k);
   
-private:
+protected:
   
   int partition(vector<int> input, int l, int r);
 

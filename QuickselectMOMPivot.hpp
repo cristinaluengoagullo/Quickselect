@@ -14,7 +14,7 @@ class QuickselectMOMPivot : public Quickselect
 public:
   
   QuickselectMOMPivot();
-  
+
 private:
 
   int pivotSelection(vector<int> input, int l, int r);

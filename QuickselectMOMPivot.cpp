@@ -9,24 +9,21 @@ int QuickselectMOMPivot::pivotSelection(vector<int> input, int l, int r)
 
 int QuickselectMOMPivot::medianOfMedians(vector<int> input, int l, int r) 
 {
-  if(r - l <= 5) {
-    sort(input.begin()+l,input.begin()+r);
-    int n = (r - l) / 2; 
-    return input[n];
+  int n = r-l+1;
+  int nGroups = n/5;
+  for(int i = 0; i < nGroups; i++) {
+    int shift = i*5;
+    int subRight = shift+4;
+    if(subRight > r) subRight = r;
+    int median5 = median(input,l+shift,l+subRight);
+    input[l+n] = input[floor(float(l+shift)/5)];
+    input[floor(float(l+shift)/5)] = median5;
   }
-  // 1. Divide the vector in groups of 5
-  // 2. Compute the median of each group
-  // 3. Return the median of all medians
-  vector<int> medians;
-  for(int i = l; i < r; i+=5) {
-    int m = medianOfMedians(input,i,i+5);
-    medians.push_back(m);
-  }
-  return medianOfMedians(medians,0,medians.size()-1);
+  return quickselect(input,l,l+nGroups-1,nGroups/2);
 }
 
 int QuickselectMOMPivot::median(vector<int> input, int l, int r) {
-  sort(input.begin()+l,input.end()+r);
-  int n = input.size() / 2;
-  return input[n];
+  sort(input.begin()+l,input.begin()+r);
+  int n = float(r-l+1) / 2;
+  return input[l+n];
 }

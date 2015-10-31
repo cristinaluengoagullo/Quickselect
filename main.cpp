@@ -19,7 +19,7 @@ void printVector(vector<int> input) {
 }
 
 int showUsageMessage(const char* arg0) {
-  cout << endl << "Usage: " << arg0 << "[-v] ( -rep | -norep ) ( -det | -rand | -mom | -monte ) <number_elements> <i-th element>" << endl << endl;
+  cout << endl << "Usage: " << arg0 << " [-v] ( -rep | -norep ) ( -det | -rand | -mom | -monte ) <number_elements> <i-th element>" << endl << endl;
   cout << "      -v: Outputs information" << endl;
   cout << "      -rep: Creates a sample vector which can have repeated elements" << endl;
   cout << "      -norep: Creates a sample vector of distinct elements" << endl;
@@ -76,6 +76,7 @@ vector<int> sampleVectorRepeatedValues(int n)
   return v;
 }
 
+// For n greater >= 100
 set<int> sampleKs(int n) 
 {
   set<int> ks;
@@ -133,17 +134,15 @@ int main(int argc, char **argv)
     result = qs.quickselect(v,0,v.size()-1,k);
     if(verbose) cout << result  << endl << endl;
     auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::seconds>(end-begin).count();
     cout << std::fixed << (std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() * pow(10,-6)) << endl;
   }
   else if(not strcmp(argv[start+2],"-rand")) {
-    QuickselectDetPivot qs;
+    QuickselectRandPivot qs;
     auto begin = std::chrono::high_resolution_clock::now();
     result = qs.quickselect(v,0,v.size()-1,k);
     if(verbose) cout << result << endl << endl;
     auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::seconds>(end-begin).count();
-    cout << std::fixed << std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() << endl;
+    cout << std::fixed << (std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() * pow(10,-6)) << endl;
   }
   else if(not strcmp(argv[start+2],"-mom")) {
     QuickselectMOMPivot qs;
@@ -151,8 +150,7 @@ int main(int argc, char **argv)
     result = qs.quickselect(v,0,v.size()-1,k);
     if(verbose) cout << result << endl << endl;
     auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::seconds>(end-begin).count();
-    cout << std::fixed << std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() << endl;
+    cout << std::fixed << (std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count()  * pow(10,-6))<< endl;
   }
   else if(not strcmp(argv[start+2],"-monte")) {
     MonteCarlo mc;
@@ -161,7 +159,6 @@ int main(int argc, char **argv)
     if(result == -1) cout << "FAILED" << endl; 
     if(verbose) cout << result << endl << endl;
     auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::seconds>(end-begin).count();
-    cout << std::fixed << std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() << endl;
+    if(result != -1) cout << std::fixed << (std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() * pow(10,-6)) << endl;
   }
 }
