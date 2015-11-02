@@ -52,7 +52,7 @@ int MonteCarlo::selectMedian(vector<int> input)
   }
   if(c.size() <= 4*pow(n,0.75)) {
     set<int>::iterator it = c.begin();
-    advance(it,floor(float(n/2))-ld);
+    advance(it,floor(float(n/2))-ld-1);
     return *it;
   }
   #ifdef DEBUG
@@ -84,7 +84,7 @@ int MonteCarlo::selectK(vector<int> input, int k)
   cout << "index d = " << index << endl;
   #endif
   int d = sample[index];
-  index = ceil((float(n-k)/n)*pow(n,0.75) + sqrt(n)) - 1;
+  index = ceil((float(n-k)/n)*pow(n,0.75) + sqrt(n));
   if(index > sample.size()) index = sample.size()-1;
   #ifdef DEBUG
   cout << "index u = " << index << endl;

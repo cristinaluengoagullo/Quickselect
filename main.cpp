@@ -38,7 +38,7 @@ vector<int> sampleVectorDistinctValues(int n)
   vector<int> v(n);
   // Vector of pending numbers to appear in v - For now there can appear 
   // numbers in the interval 0..2*n-1
-  vector<int> pending(2*n);
+  vector<int> pending(n);
   int i = 0;
   // Initialization of pending vector 
   for(int i = 0; i < pending.size(); i++) 
@@ -155,7 +155,7 @@ int main(int argc, char **argv)
   else if(not strcmp(argv[start+2],"-monte")) {
     MonteCarlo mc;
     auto begin = std::chrono::high_resolution_clock::now();
-    result = mc.selectK(v,k);
+    result = mc.selectMedian(v);
     if(result == -1) cout << "FAILED" << endl; 
     if(verbose) cout << result << endl << endl;
     auto end = std::chrono::high_resolution_clock::now();
