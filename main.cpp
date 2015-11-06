@@ -1,8 +1,6 @@
 #include <iostream>
 #include <random>
 #include <string.h>
-#include <time.h>
-#include <chrono>
 #include <set>
 
 #include "QuickselectDetPivot.hpp"
@@ -19,7 +17,7 @@ void printVector(vector<int> input) {
 }
 
 int showUsageMessage(const char* arg0) {
-  cout << endl << "Usage: " << arg0 << " [-v] ( -rep | -norep ) ( -det | -rand | -mom | -monte ) <number_elements> <i-th element>" << endl << endl;
+  cout << endl << "Usage: " << arg0 << " [-v] ( -rep | -norep ) ( -det | -rand | -mom | -monte ) <number_elements> [<i-th element>]" << endl << endl;
   cout << "      -v: Outputs information" << endl;
   cout << "      -rep: Creates a sample vector which can have repeated elements" << endl;
   cout << "      -norep: Creates a sample vector of distinct elements" << endl;
@@ -76,89 +74,66 @@ vector<int> sampleVectorRepeatedValues(int n)
   return v;
 }
 
-// For n greater >= 100
-set<int> sampleKs(int n) 
-{
-  set<int> ks;
-  int nSqrt = sqrt(n);
-  ks.insert(n/2);
-  int i = nSqrt;
-  while(i < (n-nSqrt)) {
-    ks.insert(i);
-    i += (float(1)/10*(n-2*nSqrt));
-  }
-  return ks;
-}
-
 int main(int argc, char **argv)
 {
-  if(argc < 5 or argc > 6) return showUsageMessage(argv[0]);
   int start = 0;
   bool verbose = false;
   if(argc == 6 and not strcmp(argv[1],"-v")) {
     verbose = true; 
     start = 1;
   }
+  if(strcmp(argv[start+2],"-monte") and start+4 == argc) {
+    cout << "It is mandatory to specify a k for algorithms different than Monte Carlo!" << endl;
+    return 3;
+  }
+  // k is optional for Monte Carlo, since if there is not k specified it will compute
+  // the median
+  int k = -1;
+  if(start+4 < argc) k = stoi(argv[start+4]);
   // Number of elements in the vector
   int n = stoi(argv[start+3]);
   // k-th element we want to select
-  int k = stoi(argv[start+4]);
   if(k > n) {
     cout << "k must be smaller than the number of elements!" << endl;
     return 3;
   }    
   vector<int> v;
-  set<int> ks;
   if(not strcmp(argv[start+1],"-rep")) v = sampleVectorRepeatedValues(n);
   else if(not strcmp(argv[start+1],"-norep")) v =  sampleVectorDistinctValues(n);
-  ks = sampleKs(v.size());
   if(verbose) {
     cout << endl << "* Sample vector *" << endl << endl;
     printVector(v);
     cout << endl << "* Sorted sample vector *" << endl << endl;
-    sort(v.begin(),v.end());
-    printVector(v);
-    cout << endl;
-    cout << "* Sample Ks *" << endl;
-    for(auto k : ks) cout << k << " ";
+    vector<int> sorted(v);
+    sort(sorted.begin(),sorted.end());
+    printVector(sorted);
     cout << endl;
     if(k == 1) cout << endl << "1st element : ";
     else if(k == 2) cout << endl << "2nd element : ";
     else if(k == 3) cout << endl << "3rd element : ";
     else cout << endl << k << "th element : ";
   }
-  int result;
   if(not strcmp(argv[start+2],"-det")) {
     QuickselectDetPivot qs;
-    auto begin = std::chrono::high_resolution_clock::now();
-    result = qs.quickselect(v,0,v.size()-1,k);
-    if(verbose) cout << result  << endl << endl;
-    auto end = std::chrono::high_resolution_clock::now();
-    cout << std::fixed << (std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() * pow(10,-6)) << endl;
+    int result = qs.quickselect(v,0,v.size()-1,k);
+    cout << result << endl << endl;
   }
   else if(not strcmp(argv[start+2],"-rand")) {
     QuickselectRandPivot qs;
-    auto begin = std::chrono::high_resolution_clock::now();
-    result = qs.quickselect(v,0,v.size()-1,k);
-    if(verbose) cout << result << endl << endl;
-    auto end = std::chrono::high_resolution_clock::now();
-    cout << std::fixed << (std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() * pow(10,-6)) << endl;
+    int result = qs.quickselect(v,0,v.size()-1,k);
+    cout << result << endl << endl;
   }
   else if(not strcmp(argv[start+2],"-mom")) {
     QuickselectMOMPivot qs;
-    auto begin = std::chrono::high_resolution_clock::now();
-    result = qs.quickselect(v,0,v.size()-1,k);
-    if(verbose) cout << result << endl << endl;
-    auto end = std::chrono::high_resolution_clock::now();
-    cout << std::fixed << (std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count()  * pow(10,-6))<< endl;
+    int result = qs.quickselect(v,0,v.size()-1,k);
+    cout << result << endl << endl;
   }
   else if(not strcmp(argv[start+2],"-monte")) {
     MonteCarlo mc;
-    auto begin = std::chrono::high_resolution_clock::now();
-    result = mc.selectMedian(v);
+    int result;
+    if(k == -1) result = mc.selectMedian(v);
+    else result = mc.selectK(v,k);
     if(result == -1) cout << "FAILED" << endl; 
-    if(verbose) cout << result << endl << endl;
-    auto end = std::chrono::high_resolution_clock::now();
-    if(result != -1) cout << std::fixed << (std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count() * pow(10,-6)) << endl;
+    cout << result << endl << endl;
   }
 }
