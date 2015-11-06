@@ -1,5 +1,5 @@
 ## Selection of the k-th element of a list
-This repository is created for an assignment on the course "Randomized Algorithms".  It contains different implementations on algorithms to select the k-th element of a list of integers:
+This repository is created for an assignment of the course "Randomized Algorithms".  It contains different implementations on algorithms to select the k-th element of a list of integers:
 * **Quick select** choosing a **deterministic pivot** (last element of the list)
 * **Quick select** choosing a **random pivot**
 * **Quick select** using the **Median of medians** algorithm to choose a pivot
