@@ -2,23 +2,23 @@
 
 Quickselect::Quickselect() {}
 
-int Quickselect::quickselect(vector<int> input, int l, int r, int k)
+int Quickselect::quickselect(vector<int>& input, int l, int r, int k)
 {
   if(r-l+1 <= 10) {
     sort(input.begin()+l,input.begin()+r);
     return input[l+k-1];
   }
   if (l >= r) return input[l];
-  int p = partition(input,l,r);
+  int pivot = pivotSelection(input,l,r);
+  int p = partition(input,l,r,pivot);
   int length = p - l + 1;
   if (length == k) return input[p];
   else if (k < length) return quickselect(input,l,p-1,k);
   else return quickselect(input,p+1,r,k-length);
 }
 
-int Quickselect::partition(vector<int> input, int l, int r)
+int Quickselect::partition(vector<int>& input, int l, int r, int pivot)
 {
-  int pivot = pivotSelection(input,l,r);
   while (l < r) {
     while (input[l] < pivot)
       l++;

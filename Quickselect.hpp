@@ -14,13 +14,13 @@ public:
   
   Quickselect();
   
-  int quickselect(vector<int> input, int l, int r, int k);
+  int quickselect(vector<int>& input, int l, int r, int k);
   
 protected:
   
-  int partition(vector<int> input, int l, int r);
+  int partition(vector<int>& input, int l, int r, int pivot);
 
-  virtual int pivotSelection(vector<int> input, int l, int r) = 0;
+  virtual int pivotSelection(vector<int>& input, int l, int r) = 0;
 
 };
 

@@ -16,7 +16,7 @@ public:
   
 private:
 
-  int pivotSelection(vector<int> input, int l, int r);
+  int pivotSelection(vector<int>& input, int l, int r);
 
 };
 

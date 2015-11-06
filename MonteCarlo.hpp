@@ -8,7 +8,7 @@
 #include <math.h>  
 #include <set>
 
-#define DEBUG 
+//#define DEBUG 
 
 using namespace std;
 
@@ -19,7 +19,7 @@ public:
   
   MonteCarlo();
 
-  int selectMedian(vector<int> input);
+  int selectMedian(const vector<int>& input);
   
   int selectK(vector<int> input, int k);
 
