@@ -8,8 +8,6 @@
 #include <math.h>  
 #include <set>
 
-//#define DEBUG 
-
 using namespace std;
 
 class MonteCarlo
